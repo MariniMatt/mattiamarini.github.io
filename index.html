@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mattia Marini — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#F5F4EF; --surface:#FFFFFF; --ink:#101012; --ink-soft:#55544C; --ink-faint:#908E80;
+    --line:#DDDAD0; --a1:#6C4FF0; --a2:#0FAF9B; --a1-soft:#ECE8FD;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#0B0B0D; --surface:#148; --surface:#141418; --ink:#EDEDE8; --ink-soft:#A6A49C; --ink-faint:#6D6B64;
+      --line:#242428; --a1:#8D74FF; --a2:#2FE4CF; --a1-soft:#1E1A3A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#0B0B0D; --surface:#141418; --ink:#EDEDE8; --ink-soft:#A6A49C; --ink-faint:#6D6B64;
+    --line:#242428; --a1:#8D74FF; --a2:#2FE4CF; --a1-soft:#1E1A3A;
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Manrope",-apple-system,"Segoe UI",sans-serif;
+    font-size:16.5px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .mono { font-family:"JetBrains Mono",monospace; }
+  .grad { background:linear-gradient(90deg,var(--a1),var(--a2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  a { color:inherit; text-decoration:none; }
+
+  .shell { display:grid; grid-template-columns:260px 1fr; min-height:100vh; }
+  @media (max-width:860px){ .shell{ grid-template-columns:1fr; } }
+
+  /* sidebar */
+  .side {
+    position:sticky; top:0; align-self:start; height:100vh;
+    padding:28px 26px; border-right:1px solid var(--line);
+    display:flex; flex-direction:column; gap:36px;
+    padding-top:calc(28px + env(safe-area-inset-top,0px));
+  }
+  @media (max-width:860px){ .side{ position:static; height:auto; border-right:none; border-bottom:1px solid var(--line); flex-direction:row; align-items:center; flex-wrap:wrap; gap:18px 28px; padding:18px 22px; } }
+  .side-mark { display:flex; align-items:center; gap:10px; }
+  .side-mark .box { width:30px; height:30px; background:var(--ink); color:var(--bg); display:flex; align-items:center; justify-content:center; font-family:"JetBrains Mono",monospace; font-weight:600; font-size:12px; }
+  .side-mark .nm { font-weight:700; font-size:14.5px; }
+  .side nav { display:flex; flex-direction:column; gap:12px; font-size:14px; color:var(--ink-soft); }
+  @media (max-width:860px){ .side nav{ flex-direction:row; gap:20px; } }
+  .side nav a:hover { color:var(--ink); }
+  .side-facts { display:flex; flex-direction:column; gap:14px; }
+  @media (max-width:860px){ .side-facts{ display:none; } }
+  .side-facts .f-lbl { font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .side-facts .f-val { font-size:14px; margin-top:3px; }
+  .side-status { margin-top:auto; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--a2); display:flex; align-items:center; gap:8px; }
+  @media (max-width:860px){ .side-status{ margin-top:0; } }
+  .side-status .pulse { width:7px; height:7px; border-radius:50%; background:var(--a2); box-shadow:0 0 0 3px color-mix(in srgb, var(--a2) 25%, transparent); }
+
+  .main { padding:0 0 80px; }
+  .mw { max-width:760px; padding:0 40px; }
+  @media (max-width:860px){ .mw{ padding:0 24px; } }
+
+  /* intro */
+  .intro { padding:72px 0 40px; }
+  .intro .kicker { font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--ink-faint); margin-bottom:18px; }
+  .intro h1 { font-size:clamp(30px,4.6vw,44px); line-height:1.2; font-weight:800; margin:0; max-width:20ch; letter-spacing:-0.01em; }
+  .intro p { margin-top:20px; color:var(--ink-soft); max-width:56ch; font-size:16.5px; }
+
+  /* stat bento */
+  .bento { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:8px; }
+  @media (max-width:620px){ .bento{ grid-template-columns:1fr; } }
+  .bento .cell { background:var(--surface); padding:22px 20px; }
+  .bento .cell .n { font-family:"JetBrains Mono",monospace; font-weight:600; font-size:26px; }
+  .bento .cell .l { margin-top:6px; font-size:12.5px; color:var(--ink-faint); }
+
+  /* work grid */
+  .work { padding:56px 0 8px; }
+  .work .sec-lbl { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:20px; }
+  .work-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:620px){ .work-grid{ grid-template-columns:1fr; } }
+  .wc { background:var(--surface); padding:26px 24px; display:flex; flex-direction:column; gap:14px; min-height:170px; }
+  .wc .wc-tag { font-family:"JetBrains Mono",monospace; font-size:10.5px; color:var(--accent); letter-spacing:.04em; text-transform:uppercase; }
+  .wc .wc-title { font-size:21px; font-weight:700; }
+  .wc .wc-desc { font-size:14px; color:var(--ink-soft); flex:1; }
+  .wc .wc-cta { font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--ink-faint); }
+  .wc:hover .wc-cta { color:var(--accent); }
+  #wc-talentos { --accent:var(--a1); }
+  #wc-fs { --accent:var(--a2); }
+
+  /* case */
+  .case { padding:72px 0; border-top:1px solid var(--line); }
+  .case-tag { font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--accent); letter-spacing:.06em; text-transform:uppercase; margin-bottom:14px; }
+  .case h2 { font-size:clamp(26px,4vw,36px); font-weight:800; margin:0; letter-spacing:-0.01em; }
+  .case .tagline { margin-top:10px; font-size:17px; color:var(--ink-soft); max-width:52ch; }
+
+  .statrow { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:34px; }
+  @media (max-width:620px){ .statrow{ grid-template-columns:repeat(2,1fr); } }
+  .statrow .cell { background:var(--surface); padding:16px 16px; }
+  .statrow .cell .n { font-family:"JetBrains Mono",monospace; font-weight:600; font-size:19px; }
+  .statrow .cell .l { font-size:11px; color:var(--ink-faint); margin-top:4px; }
+
+  .block { margin-top:44px; }
+  .block h3 { font-family:"JetBrains Mono",monospace; font-weight:500; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 16px; }
+
+  .pair2 { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+  @media (max-width:620px){ .pair2{ grid-template-columns:1fr; } }
+  .pair2 .c { background:var(--surface); padding:20px 20px; }
+  .pair2 .c .lb { font-size:12.5px; color:var(--accent); font-weight:700; margin-bottom:8px; }
+  .pair2 .c p { margin:0; color:var(--ink-soft); font-size:14.5px; }
+
+  .cal { border:1px solid var(--line); border-left:3px solid var(--accent); padding:20px 22px; display:flex; gap:18px; }
+  .cal .t { font-family:"JetBrains Mono",monospace; font-weight:600; font-size:12px; color:var(--accent); flex-shrink:0; padding-top:2px; }
+  .cal p { margin:0; color:var(--ink-soft); font-size:15px; }
+  .cal strong { color:var(--ink); }
+
+  .steps2 { list-style:none; margin:0; padding:0; counter-reset:s; border:1px solid var(--line); }
+  .steps2 li { counter-increment:s; display:grid; grid-template-columns:52px 1fr; border-top:1px solid var(--line); }
+  .steps2 li:first-child { border-top:none; }
+  .steps2 li .num { font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--accent); display:flex; align-items:center; justify-content:center; border-right:1px solid var(--line); }
+  .steps2 li .txt { padding:14px 18px; }
+  .steps2 li strong { display:block; font-size:14.5px; }
+  .steps2 li span { color:var(--ink-soft); font-size:13.5px; }
+
+  .mkt { display:grid; grid-template-columns:1.1fr 1fr; gap:34px; align-items:center; margin-top:4px; }
+  @media (max-width:620px){ .mkt{ grid-template-columns:1fr; } }
+  .bars2 { display:flex; flex-direction:column; gap:13px; }
+  .br .bl { display:flex; justify-content:space-between; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:5px; }
+  .bt { height:6px; background:var(--line); }
+  .bf { height:100%; background:var(--accent); }
+  .mkt-stat { font-size:14.5px; color:var(--ink-soft); }
+  .mkt-stat strong { color:var(--ink); }
+
+  .quad { display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center; margin-top:4px; }
+  @media (max-width:620px){ .quad{ grid-template-columns:1fr; } }
+  .quad svg { width:100%; height:auto; }
+  .quad-note { font-size:14.5px; color:var(--ink-soft); }
+  .quad-note strong { color:var(--ink); }
+
+  .pull2 { margin-top:48px; border:1px solid var(--line); padding:30px 30px; }
+  .pull2 p { font-size:20px; font-weight:700; line-height:1.4; max-width:40ch; margin:0; }
+  .pull2 .credit { margin-top:14px; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--ink-faint); }
+
+  .srcnote { margin-top:26px; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--ink-faint); }
+
+  .about2 { padding:64px 0; border-top:1px solid var(--line); }
+  .about2 .sec-lbl { font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:18px; }
+  .about2 p { color:var(--ink-soft); max-width:62ch; font-size:16px; }
+
+  footer { padding:34px 0 60px; border-top:1px solid var(--line); display:flex; justify-content:space-between; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--ink-faint); flex-wrap:wrap; gap:10px; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <div class="side-mark"><div class="box">MM</div><div class="nm">Mattia Marini</div></div>
+    <nav>
+      <a href="#work">Work</a>
+    </nav>
+    <div class="side-facts">
+      <div><div class="f-lbl">Location</div><div class="f-val">Charleston, WV / Pescara, IT</div></div>
+      <div><div class="f-lbl">Focus</div><div class="f-val">Business strategy &amp; entrepreneurship</div></div>
+      <div><div class="f-lbl">Year</div><div class="f-val">Junior</div></div>
+    </div>
+    <div class="side-status"><span class="pulse"></span>open to internships</div>
+  </aside>
+
+  <main class="main">
+    <div class="mw intro">
+      <div class="kicker">// business management &amp; entrepreneurship</div>
+      <h1>I turn <span class="grad">rough ideas</span> into structured business cases.</h1>
+      <p>Market sizing, revenue models, competitive positioning — built through coursework, pitch competitions, and projects I start on my own.</p>
+      <div class="bento">
+        <div class="cell"><div class="n">02</div><div class="l">Full case studies</div></div>
+        <div class="cell"><div class="n">$35B</div><div class="l">HR-tech market sized</div></div>
+        <div class="cell"><div class="n">€2.2B+</div><div class="l">Revenue compared, FY25</div></div>
+      </div>
+    </div>
+
+    <div class="mw work" id="work">
+      <div class="sec-lbl">Selected work</div>
+      <div class="work-grid">
+        <a class="wc" id="wc-talentos" href="#talentos">
+          <div class="wc-tag">i3 Contest</div>
+          <div class="wc-title">TalentOS</div>
+          <div class="wc-desc">An AI-scored interview platform replacing subjective impressions with a standardized performance index.</div>
+          <div class="wc-cta">view case →</div>
+        </a>
+        <a class="wc" id="wc-fs" href="#ferretti-sanlorenzo">
+          <div class="wc-tag">Financial analysis</div>
+          <div class="wc-title">Ferretti vs Sanlorenzo</div>
+          <div class="wc-desc">Comparing two Italian yacht builders' FY25 results: growth by scale versus growth by margin.</div>
+          <div class="wc-cta">view case →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- CASE: TALENTOS -->
+    <div class="mw">
+      <article class="case" id="talentos" style="--accent:var(--a1)">
+        <div class="case-tag">i3 Contest — Business Pitch</div>
+        <h2>TalentOS</h2>
+        <p class="tagline">Replacing subjective interview impressions with an objective performance index.</p>
+
+        <div class="statrow">
+          <div class="cell"><div class="n">$35B</div><div class="l">Global HR-tech market</div></div>
+          <div class="cell"><div class="n">+12%</div><div class="l">Market CAGR</div></div>
+          <div class="cell"><div class="n">80M+</div><div class="l">Applications sent / year</div></div>
+          <div class="cell"><div class="n">4</div><div class="l">Steps to a TPI score</div></div>
+        </div>
+
+        <div class="block">
+          <h3>The problem</h3>
+          <div class="pair2">
+            <div class="c"><div class="lb">The resume gap</div><p>A resume reflects past experience, but reveals little about a candidate's actual performance or future potential.</p></div>
+            <div class="c"><div class="lb">Interview inconsistency</div><p>Interviews remain subjective and inconsistent across interviewers, and candidates rarely receive useful feedback.</p></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>The solution</h3>
+          <div class="cal"><div class="t">TPI</div><p>TalentOS simulates real interview scenarios through artificial intelligence and returns a <strong>Talent Performance Index</strong> — a standardized score that objectively measures candidate performance, useful to both companies and candidates themselves.</p></div>
+        </div>
+
+        <div class="block">
+          <h3>How it works</h3>
+          <ol class="steps2">
+            <li><div class="num">01</div><div class="txt"><strong>AI-guided simulation</strong><span>Candidates go through an interview that replicates real work scenarios.</span></div></li>
+            <li><div class="num">02</div><div class="txt"><strong>Language &amp; speech analysis</strong><span>An advanced NLP model evaluates communication, behavior, and soft skills.</span></div></li>
+            <li><div class="num">03</div><div class="txt"><strong>TPI score generation</strong><span>Collected data is converted into a standardized performance index.</span></div></li>
+            <li><div class="num">04</div><div class="txt"><strong>Personalized feedback</strong><span>Candidates receive practical guidance and tools to improve.</span></div></li>
+          </ol>
+        </div>
+
+        <div class="block">
+          <h3>The market</h3>
+          <div class="mkt">
+            <div class="bars2">
+              <div class="br"><div class="bl"><span>Core HR software</span><span>53%</span></div><div class="bt"><div class="bf" style="width:53%"></div></div></div>
+              <div class="br"><div class="bl"><span>Talent assessment &amp; analytics</span><span>28%</span></div><div class="bt"><div class="bf" style="width:28%"></div></div></div>
+              <div class="br"><div class="bl"><span>AI-based screening</span><span>19%</span></div><div class="bt"><div class="bf" style="width:19%"></div></div></div>
+            </div>
+            <p class="mkt-stat">With over <strong>80 million</strong> applications sent every year and no universal evaluation standard, the opportunity for TalentOS is large and still largely uncontested.</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Business model</h3>
+          <div class="pair2">
+            <div class="c"><div class="lb">B2C — individual</div><p>Freemium model with free basic access; premium subscriptions unlock advanced simulations, detailed analytics, and personalized coaching.</p></div>
+            <div class="c"><div class="lb">B2B — enterprise</div><p>SaaS subscriptions for unlimited assessments, or per-assessment pricing: scalable solutions for teams of any size.</p></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Competitive positioning</h3>
+          <div class="quad">
+            <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+              <line x1="30" y1="10" x2="30" y2="190" stroke="var(--line)" stroke-width="1"/>
+              <line x1="30" y1="190" x2="250" y2="190" stroke="var(--line)" stroke-width="1"/>
+              <text x="8" y="15" font-family="JetBrains Mono" font-size="9" fill="var(--ink-faint)">High</text>
+              <text x="8" y="195" font-family="JetBrains Mono" font-size="9" fill="var(--ink-faint)">Low</text>
+              <text x="30" y="208" font-family="JetBrains Mono" font-size="9" fill="var(--ink-faint)">Low</text>
+              <text x="222" y="208" font-family="JetBrains Mono" font-size="9" fill="var(--ink-faint)">High</text>
+              <text x="120" y="16" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" fill="var(--ink-faint)">Candidate development</text>
+              <text x="140" y="215" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" fill="var(--ink-faint)">Evaluation standardization</text>
+              <circle cx="70" cy="150" r="4" fill="var(--ink-faint)"/>
+              <text x="78" y="153" font-family="JetBrains Mono" font-size="9" fill="var(--ink-soft)">Traditional ATS</text>
+              <circle cx="190" cy="140" r="4" fill="var(--ink-faint)"/>
+              <text x="150" y="128" font-family="JetBrains Mono" font-size="9" fill="var(--ink-soft)">LinkedIn / HireVue</text>
+              <circle cx="205" cy="45" r="6" fill="var(--accent)"/>
+              <text x="150" y="35" font-family="JetBrains Mono" font-weight="600" font-size="10" fill="var(--accent)">TalentOS</text>
+            </svg>
+            <p class="quad-note">Existing platforms screen candidates but offer no growth tools or feedback. <strong>TalentOS</strong> is the only player combining high evaluation standardization with high candidate development.</p>
+          </div>
+        </div>
+
+        <div class="pull2">
+          <p>"To become the global standard for measuring talent potential — just as GPA standardizes academic performance, TalentOS standardizes talent assessment."</p>
+          <div class="credit">— the TalentOS vision</div>
+        </div>
+      </article>
+    </div>
+
+    <!-- CASE: FERRETTI vs SANLORENZO -->
+    <div class="mw">
+      <article class="case" id="ferretti-sanlorenzo" style="--accent:var(--a2)">
+        <div class="case-tag">Comparative Financial Analysis</div>
+        <h2>Ferretti Group vs Sanlorenzo</h2>
+        <p class="tagline">Two different strategies leading Italian luxury yachting: scale versus margin.</p>
+
+        <div class="statrow">
+          <div class="cell"><div class="n">€1,232M</div><div class="l">Ferretti FY25 revenue</div></div>
+          <div class="cell"><div class="n">€960M</div><div class="l">Sanlorenzo FY25 revenue</div></div>
+          <div class="cell"><div class="n">16.5%</div><div class="l">Ferretti EBITDA margin</div></div>
+          <div class="cell"><div class="n">18.8%</div><div class="l">Sanlorenzo EBITDA margin</div></div>
+        </div>
+
+        <div class="block">
+          <h3>FY2025 results</h3>
+          <div class="pair2">
+            <div class="c"><div class="lb">Ferretti Group</div><p>Net revenue from new yachts of €1,232 million (+5.0%), adjusted EBITDA of €202.8 million (16.5% margin), a net cash position of €111 million, and an order backlog of €1.72 billion.</p></div>
+            <div class="c"><div class="lb">Sanlorenzo</div><p>Net revenue from new yachts of €960.4 million (+3.2%), EBITDA of €180.6 million (18.8% margin), net profit of €107.4 million, and an order backlog approaching €2 billion.</p></div>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Revenue &amp; margin compared</h3>
+          <div class="mkt">
+            <div class="bars2">
+              <div class="br"><div class="bl"><span>Revenue — Ferretti</span><span>€1,232M</span></div><div class="bt"><div class="bf" style="width:100%"></div></div></div>
+              <div class="br"><div class="bl"><span>Revenue — Sanlorenzo</span><span>€960M</span></div><div class="bt"><div class="bf" style="width:78%"></div></div></div>
+              <div class="br"><div class="bl"><span>EBITDA margin — Ferretti</span><span>16.5%</span></div><div class="bt"><div class="bf" style="width:16.5%"></div></div></div>
+              <div class="br"><div class="bl"><span>EBITDA margin — Sanlorenzo</span><span>18.8%</span></div><div class="bt"><div class="bf" style="width:18.8%"></div></div></div>
+            </div>
+            <p class="mkt-stat">Ferretti generates more revenue thanks to the group's scale — seven brands spanning composite boats to superyachts — but it is <strong>Sanlorenzo</strong> that delivers the higher margin, supported by its semi-custom model and the integration of Nautor Swan.</p>
+          </div>
+        </div>
+
+        <div class="block">
+          <h3>Reading the results</h3>
+          <div class="cal"><div class="t">FY25</div><p>Ferretti leans on brand diversification and volume to defend its market leadership; Sanlorenzo stays focused on fewer, higher-value units, translating that choice into a higher EBITDA margin. The comparison illustrates two legitimate paths to growth within the same industry: scale versus selectivity.</p></div>
+        </div>
+
+        <p class="srcnote">data: FY2025 preliminary results (unaudited) — official releases, Ferretti Group &amp; Sanlorenzo S.p.A.</p>
+      </article>
+    </div>
+
+    <footer class="mw">
+      <span>mattia marini</span>
+      <span>portfolio — 2026</span>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
